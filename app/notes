@@ -1,0 +1,2 @@
+  //"dist": "npx build --x64 --macos --win --linux --c.extraMetadata.main=build/electron.js -p always"
+      

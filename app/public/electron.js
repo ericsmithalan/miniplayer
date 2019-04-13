@@ -15,6 +15,7 @@ let mainWindow
 
 createWindow = () => {
     mainWindow = new BrowserWindow({
+        icon: path.join(__dirname, 'assets/logo-72.png'),
         backgroundColor: '#F7F7F7',
         minWidth: 880,
         show: false,
