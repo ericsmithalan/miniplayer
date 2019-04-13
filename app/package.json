@@ -1,18 +1,99 @@
 {
-  "name": "electron-react-typescript-boilerplate",
-  "productName": "electron-typescript-react-boilerplate",
-  "version": "1.0.0",
-  "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
-  "main": "./main.js",
-  "author": {
-    "name": "Alexander Rath",
-    "email": "irath96@gmail.com",
-    "url": "https://github.com/irath96"
-  },
-  "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
-  },
-  "license": "MIT",
-  "dependencies": {
-  }
+    "name": "miniplayer",
+    "version": "0.1.0",
+    "private": true,
+    "license": "MIT",
+    "main": "./public/electron.js",
+    "dependencies": {
+        "cross-env": "^5.2.0",
+        "electron-is-dev": "^1.1.0",
+        "electron-log": "^3.0.5",
+        "electron-publisher-s3": "^20.17.2",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6"
+    },
+    "devDependencies": {
+        "concurrently": "^4.1.0",
+        "electron": "^4.1.4",
+        "electron-builder": "^20.39.0",
+        "electron-devtools-installer": "^2.2.4",
+        "prettier": "^1.17.0",
+        "react-dev-utils": "^8.0.0",
+        "react-scripts": "2.1.8",
+        "version-bump-prompt": "^5.0.1",
+        "wait-on": "^3.2.0"
+    },
+    "scripts": {
+        "react-start": "react-scripts start",
+        "react-build": "react-scripts build",
+        "react-test": "react-scripts test --env=jsdom",
+        "react-eject": "react-scripts eject",
+        "release": "yarn react-build && electron-builder --publish=always",
+        "build": "yarn react-build && yarn electron-build",
+        "dev": "yarn react-scripts start",
+        "start": "concurrently \"cross-env BROWSER=none yarn react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
+        "pack": "electron-builder --dir",
+        "dist": "npx build --x64 --macos --win --linux --c.extraMetadata.main=build/electron.js -p always"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "build": {
+        "appId": "com.miniplayer.app",
+        "compression": "normal",
+        "productName": "miniplayer",
+        "directories": {
+            "buildResources": "build",
+            "output": "dist"
+        },
+        "mac": {
+            "icon": "assets/appicons/logo.icns",
+            "type": "distribution",
+            "target": [
+                "pkg",
+                "dmg",
+                "mas"
+            ],
+            "publish": {
+                "provider": "s3",
+                "bucket": "miniplayer-releases",
+                "path": "releases"
+            },
+            "category": "public.app-category.video"
+        },
+        "mas": {
+            "entitlements": "assets/entitlements.mas.plist",
+            "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
+            "provisioningProfile": "assets/embedded.provisionprofile"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "assets/appicons/logo.ico",
+            "publish": {
+                "provider": "s3",
+                "bucket": "miniplayer-releases",
+                "path": "releases"
+            }
+        },
+        "linux": {
+            "icon": "assets/appicons/logo.png",
+            "target": [
+                "snap",
+                "AppImage"
+            ],
+            "description": "miniplayer",
+            "category": "Network;Feed",
+            "publish": {
+                "provider": "s3",
+                "bucket": "miniplayer-releases",
+                "path": "releases"
+            }
+        }
+    }
 }
