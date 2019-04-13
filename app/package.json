@@ -45,6 +45,9 @@
         "not op_mini all"
     ],
     "build": {
+        "publish": {
+            "provider": "github"
+        },
         "appId": "com.miniplayer.app",
         "compression": "normal",
         "productName": "miniplayer",
